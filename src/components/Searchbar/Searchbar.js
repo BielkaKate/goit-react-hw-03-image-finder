@@ -8,10 +8,21 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Modal from '../Modal/Modal';
 import Button from '../Button/Button';
+import PropTypes from 'prop-types';
 
 const API_Key = '23544222-01ada114d06f3f80b4f13a1dd';
 
 class Searchbar extends Component {
+  static propTypes = {
+    value: PropTypes.string,
+    images: PropTypes.array,
+    page: PropTypes.number,
+    searchValue: PropTypes.string,
+    loading: PropTypes.bool,
+    showModal: PropTypes.bool,
+    largeImege: PropTypes.string,
+  };
+
   state = {
     value: '',
     searchValue: '',

@@ -4,8 +4,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import ImageGallery from './components/ImageGallery/ImageGallery';
+import PropTypes from 'prop-types';
 
 class App extends Component {
+  static propTypes = {
+    imageName: PropTypes.string,
+  };
+
   state = {
     imageName: '',
   };
