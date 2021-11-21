@@ -9,6 +9,7 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Modal from '../Modal/Modal';
 import Button from '../Button/Button';
 import PropTypes from 'prop-types';
+import fetchApi from '../../services/fetchApi';
 
 const API_Key = '23544222-01ada114d06f3f80b4f13a1dd';
 
@@ -41,10 +42,7 @@ class Searchbar extends Component {
           loading: true,
         });
       }
-      axios
-        .get(
-          `https://pixabay.com/api/?q=${this.state.searchValue}&page=${this.state.page}&key=${API_Key}&image_type=photo&orientation=horizontal&per_page=12`,
-        )
+      fetchApi(this.state.searchValue, this.state.page)
         .then(response => {
           if (response.status === 200) {
             this.setState(prevState => ({
@@ -85,11 +83,7 @@ class Searchbar extends Component {
     this.setState({
       loading: true,
     });
-
-    axios
-      .get(
-        `https://pixabay.com/api/?q=${this.state.value}&page=${this.state.page}&key=${API_Key}&image_type=photo&orientation=horizontal&per_page=12`,
-      )
+    fetchApi(this.state.value, this.state.page)
       .then(response => {
         console.log(response);
         if (response.status === 200) {

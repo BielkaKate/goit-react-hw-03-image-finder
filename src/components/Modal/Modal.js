@@ -6,16 +6,6 @@ import PropTypes from 'prop-types';
 const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
-  static propTypes = {
-    value: PropTypes.string,
-    images: PropTypes.array,
-    page: PropTypes.number,
-    searchValue: PropTypes.string,
-    loading: PropTypes.bool,
-    showModal: PropTypes.bool,
-    largeImeges: PropTypes.string,
-  };
-
   componentDidMount() {
     window.addEventListener('keydown', this.closeModalOnEscape);
   }
