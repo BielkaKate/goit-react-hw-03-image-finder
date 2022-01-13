@@ -11,6 +11,7 @@ import Modal from './components/Modal/Modal';
 import ImageGalleryItem from './components/ImageGalleryItem/ImageGalleryItem';
 import fetchApi from './services/fetchApi';
 import { toast } from 'react-toastify';
+import s from '../src/components/ImageGalleryItem/ImageGalleryItem.module.css';
 
 class App extends Component {
   static propTypes = {
