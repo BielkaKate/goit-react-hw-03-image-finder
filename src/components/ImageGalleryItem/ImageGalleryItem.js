@@ -1,5 +1,4 @@
 import s from './ImageGalleryItem.module.css';
-import { Component } from 'react';
 
 const ImageGalleryItem = ({ imagesArray, onClick }) => {
   return imagesArray.map(({ id, webformatURL, largeImageURL }) => (
