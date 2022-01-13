@@ -34,16 +34,17 @@ class App extends Component {
     showModal: false,
   };
 
-  async componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { searchQuery } = this.state;
 
     if (searchQuery !== prevState.searchQuery) {
       this.setState({ loading: true });
       this.setState({ page: 1 });
+      this.setState({ images: [] });
 
       fetchApi(this.state.searchQuery, this.state.page)
         .then(response => {
-          console.log(response);
+          console.log('Это оно', response);
           if (response.status === 200) {
             this.setState({ images: response.data.hits });
             if (this.state.images.length === 0) {
@@ -59,34 +60,66 @@ class App extends Component {
         })
         .catch(error => console.error(error));
     }
+    if (
+      prevState.page !== this.state.page &&
+      searchQuery === prevState.searchQuery
+    ) {
+      fetchApi(this.state.searchQuery, this.state.page)
+        .then(response => {
+          console.log(response);
+
+          if (response.status === 200) {
+            this.setState(prevState => ({
+              images: [...prevState.images, ...response.data.hits],
+            }));
+
+            if (this.state.images.length === 0) {
+              toast.error('По такому запросу картинки не найденны!');
+            }
+          }
+          this.setState({
+            loading: false,
+          });
+          if (response.status === 400) {
+            this.setState({ error: 'картинки по вашему зыпросу не найдены' });
+          }
+        })
+        .catch(error => console.error(error));
+    }
   }
 
-  onLoadMoreClick = async () => {
+  onLoadMoreClick = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
     this.setState({ loading: true });
-    fetchApi(this.state.searchQuery, this.state.page)
-      .then(response => {
-        console.log(response);
-        if (response.status === 200) {
-          this.setState(prevState => ({
-            images: [...prevState.images, ...response.data.hits],
-          }));
-          if (this.state.images.length === 0) {
-            toast.error('По такому запросу картинки не найденны!');
-          }
-        }
-        this.setState({
-          loading: false,
-        });
-        if (response.status === 400) {
-          this.setState({ error: 'картинки по вашему зыпросу не найдены' });
-        }
-      })
-      .catch(error => console.error(error));
+    // this.onLoadMoreFeth()
   };
 
+  // onLoadMoreFeth = () => {
+  //   fetchApi(this.state.searchQuery, this.state.page)
+  //     .then(response => {
+  //       console.log(response);
+
+  //       if (response.status === 200) {
+  //         this.setState(prevState => ({
+  //           images: [...prevState.images, ...response.data.hits],
+  //         }));
+
+  //         if (this.state.images.length === 0) {
+  //           toast.error('По такому запросу картинки не найденны!');
+  //         }
+  //       }
+  //       this.setState({
+  //         loading: false,
+  //       });
+  //       if (response.status === 400) {
+  //         this.setState({ error: 'картинки по вашему зыпросу не найдены' });
+  //       }
+  //     })
+  //     .catch(error => console.error(error));
+  // };
+
   onSubmitHandler = searchQuery => {
-    this.setState({ searchQuery: searchQuery });
+    this.setState({ searchQuery: searchQuery, page: 1, images: [] });
   };
 
   onItemClick = largeImageURL => {
